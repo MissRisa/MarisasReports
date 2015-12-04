@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+	  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+	  <style type="text/css">
+	  table{font-size: 13px;}
+	  </style>
+</head>
+<body>
+	<table class="pure-table">
+	    <thead>
+	        <tr>
+	            <th>[LAB_LABEL]</th>
+	            <th align="right"><a href="http://www.barcodesinc.com/generator/"><img src="http://www.barcodesinc.com/generator/image.php?code=[LAB_ORDER_ID]&style=69&type=C128B&width=180&height=40&xres=1&font=5" alt="[LAB_ORDER_ID]" border="0"></a></th>
+	        </tr>
+	    </thead>
+
+	    <tbody>
+	        <tr>
+	            <td colspan="2">[BEGIN_ORDER_OPTIONS_LIST][BEGIN_IF("<ORDER_OPTION_ID>"=="PRIO")][\]
+[SET_MACRO_FROM_ATTRIBUTE(PRIORITY, priority)][PRIORITY][PRIORITY][PRIORITY][PRIORITY]
+[END_IF][\][END_ORDER_OPTIONS_LIST]</td>
+	        </tr>
+
+	        <tr>
+	            <td rowspan="2">
+	            	<table class="pure-table pure-table-bordered">
+	            		<thead>
+	            			<tr colspan="2" align="left"><strong>Order Info:</strong></tr>
+	            		</thead>
+						<tr>
+						    <td>Order ID:</td>
+						    <td><strong>[LAB_ORDER_ID]</strong></td>
+						</tr>
+						<tr class="pure-table-odd">
+						    <td>Catalog: </td>
+						    <td><strong>[CATALOG]</strong></td>
+						</tr>
+						<tr>
+						    <td>.ro File:</td>
+						    <td>[CUSTOMER_ORDER_ID]</td>
+						</tr>
+						<tr class="pure-table-odd">
+						    <td>Processing Date:</td>
+						    <td>[CURRENT_DATE] - [CURRENT_TIME]</td>
+						</tr>
+						<tr>
+						    <td>Payment CC#:</td>
+						    <td>[PAYMENT_OBSCURED_CREDIT_CARD_NUMBER]</td>
+						</tr>
+						<tr class="pure-table-odd">
+						    <td>Promo Code:</td>
+						    <td>[SET_MACRO_FROM_ORDER_ATTRIBUTE(PROMOCODE,promocode)][PROMOCODE]</td>
+						</tr>
+						<tr>
+						    <td>Order Total:</td>
+						    <td>$[TOTAL_PRICE(03.02)]</td>
+						</tr>
+						<tr class="pure-table-odd">
+						    <td>Resale No:</td>
+						    <td>[CUSTOMER_TAXID]</td>
+						</tr>
+						<tr>
+						    <td>Job Reference:</td>
+						    <td>[BEGIN_ORDER_OPTIONS_LIST][BEGIN_IF("<ORDER_OPTION_ID>"=="REF1")][\][ORDER_OPTION_LABEL][END_IF][\][END_ORDER_OPTIONS_LIST]</td>
+						</tr>
+					</table>
+	            </td>
+	        	<td>
+	        		<table class="pure-table pure-table-bordered">
+	        			<thead>
+	        				<tr>
+	        					<th colspan="2" align="left"><span>Customer Info:</span></th>
+	        				</tr>
+	        			</thead>
+	        			<tr>
+	        				<td>Customer Name:</td>
+	        				<td>[CUSTOMER_NAME]</td>
+	        			</tr>
+	        			<tr class="pure-table-odd">
+						    <td>Phone:</td>
+						    <td>[CUSTOMER_NUMBER]</td>
+						</tr>
+						<tr>
+						    <td>Email:</td>
+						    <td>[CUSTOMER_EMAIL]</td>
+						</tr>
+					</table>
+	        	</td>
+	        </tr>
+	        <tr>
+	        	<td>
+	        		<table class="pure-table pure-table-bordered">
+	        			<thead>
+	        				<tr>
+	        					<th colspan="2" align="left"><span>Shipping Info:</span></th>
+	        				</tr>
+	        			</thead>
+	        			<tr>
+						    <td>Ship method:</td>
+						    <td>[SHIPPING_LABEL]</td>
+						</tr>
+						<tr>
+						    <td colspan="2" ><strong>Ship To:</strong>
+						    	[BEGIN_IF(("<SHIPPING_ID>"!="LBPKUP")&&("<SHIPPING_ID>"!="SHPCYP"))][\]
+						    	[SET_MACRO_FROM_SHIPPING_METHOD_ATTRIBUTE(SHIP_NAME,ship_to_name)]<strong>[SHIP_NAME]</strong>
+						        [SET_MACRO_FROM_SHIPPING_METHOD_ATTRIBUTE(SHIP_ADDRESS,ship_to_address)][SHIP_ADDRESS]
+						        [SET_MACRO_FROM_SHIPPING_METHOD_ATTRIBUTE(SHIP_ADDRESS2,ship_to_address2)][SHIP_ADDRESS2]
+						        [SET_MACRO_FROM_SHIPPING_METHOD_ATTRIBUTE(SHIP_CITY,ship_to_city)][SHIP_CITY][SET_MACRO_FROM_SHIPPING_METHOD_ATTRIBUTE(SHIP_STATE,ship_to_state)][SHIP_STATE]
+						        [SET_MACRO_FROM_SHIPPING_METHOD_ATTRIBUTE(SHIP_ZIP,ship_to_zip)][SHIP_ZIP]
+						        [END_IF][\]
+						        [BEGIN_IF(("<SHIPPING_ID>"=="LBPKUP")&&("<SHIPPING_ID>"=="SHPCYP"))][\]
+						        DELIVER TO CYPRESS!
+						        [END_IF][\]
+						    </td>
+						</tr>
+					</table>
+	        	</td>
+	        </tr>
+	        <tr>
+	        	<td colspan="2">
+		        	<table class="pure-table pure-table-bordered">
+			          <thead>
+					    <tr>
+					      <th colspan="4" align="left"><span>Product Summary:</span> </th>
+					    </tr>
+					  </thead>
+					    <tr>
+						    <td><strong>QTY</strong></td>
+						    <td><strong>Description</strong></td>
+						    <td>Front</td>
+						    <td>Back</td>
+						</tr>
+						  [BEGIN_ITEM_LIST]
+						<tr>
+						    <td>[ITEM_QUANTITY]</td> 
+						    <td>[ITEM_PRODUCT_DESCRIPTION(5)]</td>
+						    [BEGIN_UNIT_LIST]
+						    <td><img src="\\192.168.65.50\RPLShares\Production\Printing\ROES\Reports\[LAB_ORDER_ID]\thumbnails\[UNIT_THUMBNAIL_FILE]"></td>
+						    <td><img src="\\192.168.65.50\RPLShares\Production\Printing\ROES\Reports\[LAB_ORDER_ID]\thumbnails\[UNIT_THUMBNAIL_FILE]"</td>
+						    [END_UNIT_LIST]
+						</tr>
+						  [BEGIN_ITEM_OPTIONS_LIST][\]
+						<tr>
+						    <td colspan="1">[ITEM_OPTION_QUANTITY]</td> 
+						    <td colspan="3">[ITEM_OPTION_LABEL]</td>
+						</tr>
+						  [END_ITEM_OPTIONS_LIST][\]
+						  [END_ITEM_LIST]
+					</table>
+				</td>
+			</tr>
+	    </tbody>
+	</table>
+</body>
+</html>
